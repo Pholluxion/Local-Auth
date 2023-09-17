@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:local_auth_platform_interface/local_auth_platform_interface.dart';
@@ -16,54 +18,41 @@ class LocalAuthCubit extends Cubit<LocalAuthState> {
   void isDeviceSupported() async {
     final isDeviceSupported = await _localAuthRepository.isDeviceSupported();
 
-    emit(state.copyWith(
-      isDeviceSupported: isDeviceSupported,
-    ));
+    emit(state.copyWith(isDeviceSupported: isDeviceSupported));
   }
 
   void checkBiometrics() async {
     final checkBiometrics = await _localAuthRepository.checkBiometrics();
 
-    emit(state.copyWith(
-      checkBiometrics: checkBiometrics,
-    ));
+    emit(state.copyWith(checkBiometrics: checkBiometrics));
   }
 
   void getAvailableBiometrics() async {
-    final getAvailableBiometrics =
+    final availableBiometrics =
         await _localAuthRepository.getAvailableBiometrics();
 
-    emit(state.copyWith(
-      getAvailableBiometrics: getAvailableBiometrics,
-    ));
+    emit(state.copyWith(availableBiometrics: availableBiometrics));
   }
 
   void authenticate() async {
-    final authenticate = await _localAuthRepository.authenticate();
+    final isAuthenticated = await _localAuthRepository.authenticate();
 
-    emit(state.copyWith(
-      authenticate: authenticate,
-    ));
+    emit(state.copyWith(isAuthenticated: isAuthenticated));
   }
 
   void authenticateWithBiometrics() async {
-    final authenticateWithBiometrics =
+    final isAuthenticated =
         await _localAuthRepository.authenticateWithBiometrics();
 
-    emit(state.copyWith(
-      authenticateWithBiometrics: authenticateWithBiometrics,
-    ));
+    emit(state.copyWith(isAuthenticated: isAuthenticated));
   }
 
   void cancelAuthentication() async {
     final cancelAuthentication =
         await _localAuthRepository.cancelAuthentication();
-
+    log(cancelAuthentication.toString());
     if (cancelAuthentication) {
-      emit(state.copyWith(
-        authenticate: false,
-        authenticateWithBiometrics: false,
-      ));
+      emit(state.copyWith(isAuthenticated: false));
     }
   }
 }

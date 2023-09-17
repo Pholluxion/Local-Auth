@@ -4,41 +4,33 @@ class LocalAuthState extends Equatable {
   const LocalAuthState({
     this.isDeviceSupported = false,
     this.checkBiometrics = false,
-    this.authenticate = false,
-    this.authenticateWithBiometrics = false,
-    this.getAvailableBiometrics = const [],
+    this.isAuthenticated = false,
+    this.availableBiometrics = const [],
   });
 
   final bool isDeviceSupported;
   final bool checkBiometrics;
-  final bool authenticate;
-  final bool authenticateWithBiometrics;
-  final List<BiometricType> getAvailableBiometrics;
+  final bool isAuthenticated;
+  final List<BiometricType> availableBiometrics;
 
   @override
   List<Object> get props => [
         isDeviceSupported,
         checkBiometrics,
-        authenticate,
-        authenticateWithBiometrics,
-        getAvailableBiometrics
+        isAuthenticated,
+        availableBiometrics
       ];
 
   LocalAuthState copyWith({
     bool? isDeviceSupported,
     bool? checkBiometrics,
-    bool? authenticate,
-    bool? authenticateWithBiometrics,
-    bool? cancelAuthentication,
-    List<BiometricType>? getAvailableBiometrics,
+    bool? isAuthenticated,
+    List<BiometricType>? availableBiometrics,
   }) =>
       LocalAuthState(
         isDeviceSupported: isDeviceSupported ?? this.isDeviceSupported,
         checkBiometrics: checkBiometrics ?? this.checkBiometrics,
-        authenticate: authenticate ?? this.authenticate,
-        authenticateWithBiometrics:
-            authenticateWithBiometrics ?? this.authenticateWithBiometrics,
-        getAvailableBiometrics:
-            getAvailableBiometrics ?? this.getAvailableBiometrics,
+        isAuthenticated: isAuthenticated ?? this.isAuthenticated,
+        availableBiometrics: availableBiometrics ?? this.availableBiometrics,
       );
 }
