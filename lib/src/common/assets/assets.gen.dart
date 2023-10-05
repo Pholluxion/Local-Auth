@@ -14,6 +14,9 @@ import 'package:flutter/services.dart';
 class $AssetsImagesGen {
   const $AssetsImagesGen();
 
+  /// File path: assets/images/home.png
+  AssetGenImage get home => const AssetGenImage('assets/images/home.png');
+
   /// File path: assets/images/logo-paga-todo-b.svg
   SvgGenImage get logoPagaTodoB =>
       const SvgGenImage('assets/images/logo-paga-todo-b.svg');
@@ -23,13 +26,27 @@ class $AssetsImagesGen {
       const SvgGenImage('assets/images/logo-paga-todo-r.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [logoPagaTodoB, logoPagaTodoR];
+  List<dynamic> get values => [home, logoPagaTodoB, logoPagaTodoR];
+}
+
+class $AssetsRiveGen {
+  const $AssetsRiveGen();
+
+  /// File path: assets/rive/exito.riv
+  String get exito => 'assets/rive/exito.riv';
+
+  /// File path: assets/rive/precarga.riv
+  String get precarga => 'assets/rive/precarga.riv';
+
+  /// List of all assets
+  List<String> get values => [exito, precarga];
 }
 
 class Assets {
   Assets._();
 
   static const $AssetsImagesGen images = $AssetsImagesGen();
+  static const $AssetsRiveGen rive = $AssetsRiveGen();
 }
 
 class AssetGenImage {

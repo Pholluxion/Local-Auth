@@ -1,19 +1,31 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:local_auth_platform_interface/local_auth_platform_interface.dart';
 
 import '../../data/data.dart';
 
 part 'local_auth_state.dart';
 
-class LocalAuthCubit extends Cubit<LocalAuthState> {
+class LocalAuthCubit extends Cubit<LocalAuthState> with HydratedMixin {
   LocalAuthCubit()
       : _localAuthRepository = LocalAuthRepository(),
         super(const LocalAuthState());
 
   final LocalAuthRepository _localAuthRepository;
+
+  void init(_) {
+    if (state.isEnabled && !state.isAuthenticated) {
+      this
+        ..isDeviceSupported()
+        ..checkBiometrics()
+        ..authenticateWithBiometrics();
+    }
+  }
+
+  void enableLocalAuth() => emit(state.copyWith(isEnabled: true));
+  void disableLocalAuth() => emit(state.copyWith(isEnabled: false));
 
   void isDeviceSupported() async {
     final isDeviceSupported = await _localAuthRepository.isDeviceSupported();
@@ -54,5 +66,16 @@ class LocalAuthCubit extends Cubit<LocalAuthState> {
     if (cancelAuthentication) {
       emit(state.copyWith(isAuthenticated: false));
     }
+  }
+
+  @override
+  LocalAuthState? fromJson(Map<String, dynamic> json) {
+    LocalAuthState stateFromJson = const LocalAuthState();
+    return stateFromJson.copyWith(isEnabled: json['isEnabled'] as bool);
+  }
+
+  @override
+  Map<String, dynamic>? toJson(LocalAuthState state) {
+    return {'isEnabled': state.isEnabled};
   }
 }
